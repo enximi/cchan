@@ -1,7 +1,12 @@
 #include "cchan_watch.h"
 
+#include <stdlib.h>
+
 void cchan_watch_new(CchanWatch **self, void *initial_message, UT_icd *icd) {
-  *self = malloc(sizeof(CchanWatch));
+  *self = (CchanWatch *)malloc(sizeof(CchanWatch));
+  if (*self == NULL) {
+    exit(-1);
+  }
   utringbuffer_new((*self)->ringbuffer, 1, icd);
   utringbuffer_push_back((*self)->ringbuffer, initial_message);
   (*self)->update_count = 0;

@@ -7,7 +7,6 @@
 #include "uthash.h"
 #include "utringbuffer.h"
 
-// 订阅者
 typedef struct {
   uint32_t id;
   uint32_t read_index;

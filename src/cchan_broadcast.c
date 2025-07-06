@@ -1,9 +1,14 @@
 #include "cchan_broadcast.h"
 
+#include <stdlib.h>
+
 #include "utringbuffer.h"
 
 void cchan_broadcast_new(CchanBroadcast **self, uint32_t capacity, UT_icd *icd) {
-  *self = malloc(sizeof(CchanBroadcast));
+  *self = (CchanBroadcast *)malloc(sizeof(CchanBroadcast));
+  if (*self == NULL) {
+    exit(-1);
+  }
   utringbuffer_new((*self)->ringbuffer, capacity, icd);
   (*self)->subscribers = NULL;
 }
@@ -39,7 +44,10 @@ uint32_t cchan_broadcast_subscribe(CchanBroadcast *self) {
       id++;
     }
   } while (subscriber != NULL);
-  subscriber = malloc(sizeof(CchanBroadcastSubscriber));
+  subscriber = (CchanBroadcastSubscriber *)malloc(sizeof(CchanBroadcastSubscriber));
+  if (subscriber == NULL) {
+    exit(-1);
+  }
   subscriber->id = id;
   subscriber->read_index = utringbuffer_len(self->ringbuffer);
   subscriber->lag_count = 0;

@@ -1,11 +1,17 @@
 #include "cchan_mpsc.h"
 
+#include <stdlib.h>
+
 #include "utringbuffer.h"
 
 void cchan_mpsc_new(CchanMpsc **self, uint32_t capacity, UT_icd *icd) {
-  *self = malloc(sizeof(CchanMpsc));
+  *self = (CchanMpsc *)malloc(sizeof(CchanMpsc));
+  if (*self == NULL) {
+    exit(-1);
+  }
   utringbuffer_new((*self)->ringbuffer, capacity, icd);
   (*self)->read_index = 0;
+  (*self)->lag_count = 0;
 }
 
 void cchan_mpsc_free(CchanMpsc *self) {

@@ -1,7 +1,12 @@
 #include "cchan_oneshot.h"
 
+#include <stdlib.h>
+
 void cchan_oneshot_new(CchanOneshot **self, UT_icd *icd) {
-  *self = malloc(sizeof(CchanOneshot));
+  *self = (CchanOneshot *)malloc(sizeof(CchanOneshot));
+  if (*self == NULL) {
+    exit(-1);
+  }
   utringbuffer_new((*self)->ringbuffer, 1, icd);
   (*self)->received = false;
 }
