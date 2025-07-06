@@ -18,25 +18,26 @@
 ### 广播通道
 
 ```c
+#include <stdint.h>
 #include "cchan_broadcast.h"
 
 int main() {
     CchanBroadcast *broadcast;
-    u32 capacity = 10;
+    uint32_t capacity = 10;
     UT_icd icd = {sizeof(int), NULL, NULL, NULL};
 
     // 创建广播通道
     cchan_broadcast_new(&broadcast, capacity, &icd);
 
     // 订阅者订阅
-    u32 subscriber_id = cchan_broadcast_subscribe(broadcast);
+    uint32_t subscriber_id = cchan_broadcast_subscribe(broadcast);
 
     // 发送消息
     int message = 42;
     cchan_broadcast_send(broadcast, &message);
 
     // 接收消息
-    u32 lag_count;
+    uint32_t lag_count;
     int *received_message = (int *)cchan_broadcast_receive(broadcast, subscriber_id, &lag_count);
 
     // 释放广播通道
@@ -49,11 +50,12 @@ int main() {
 ### 多生产者单消费者通道
 
 ```c
+#include <stdint.h>
 #include "cchan_mpsc.h"
 
 int main() {
     CchanMpsc *mpsc;
-    u32 capacity = 10;
+    uint32_t capacity = 10;
     UT_icd icd = {sizeof(int), NULL, NULL, NULL};
 
     // 创建MPSC通道
@@ -64,7 +66,7 @@ int main() {
     cchan_mpsc_send(mpsc, &message);
 
     // 接收消息
-    u32 lag_count;
+    uint32_t lag_count;
     int *received_message = (int *)cchan_mpsc_receive(mpsc, &lag_count);
 
     // 释放MPSC通道

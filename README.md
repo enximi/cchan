@@ -18,25 +18,26 @@ This project mimics tokio by implementing a set of channels for different commun
 ### Broadcast Channel
 
 ```c
+#include <stdint.h>
 #include "cchan_broadcast.h"
 
 int main() {
     CchanBroadcast *broadcast;
-    u32 capacity = 10;
+    uint32_t capacity = 10;
     UT_icd icd = {sizeof(int), NULL, NULL, NULL};
 
     // Create a broadcast channel
     cchan_broadcast_new(&broadcast, capacity, &icd);
 
     // Subscribe a subscriber
-    u32 subscriber_id = cchan_broadcast_subscribe(broadcast);
+    uint32_t subscriber_id = cchan_broadcast_subscribe(broadcast);
 
     // Send a message
     int message = 42;
     cchan_broadcast_send(broadcast, &message);
 
     // Receive a message
-    u32 lag_count;
+    uint32_t lag_count;
     int *received_message = (int *)cchan_broadcast_receive(broadcast, subscriber_id, &lag_count);
 
     // Free the broadcast channel
@@ -49,11 +50,12 @@ int main() {
 ### Multi-Producer Single-Consumer Channel
 
 ```c
+#include <stdint.h>
 #include "cchan_mpsc.h"
 
 int main() {
     CchanMpsc *mpsc;
-    u32 capacity = 10;
+    uint32_t capacity = 10;
     UT_icd icd = {sizeof(int), NULL, NULL, NULL};
 
     // Create an MPSC channel
@@ -64,7 +66,7 @@ int main() {
     cchan_mpsc_send(mpsc, &message);
 
     // Receive a message
-    u32 lag_count;
+    uint32_t lag_count;
     int *received_message = (int *)cchan_mpsc_receive(mpsc, &lag_count);
 
     // Free the MPSC channel
