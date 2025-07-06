@@ -2,7 +2,7 @@
 
 #include "utringbuffer.h"
 
-void cchan_mpsc_new(CchanMpsc **self, u32 capacity, UT_icd *icd) {
+void cchan_mpsc_new(CchanMpsc **self, uint32_t capacity, UT_icd *icd) {
   *self = malloc(sizeof(CchanMpsc));
   utringbuffer_new((*self)->ringbuffer, capacity, icd);
   (*self)->read_index = 0;
@@ -31,7 +31,7 @@ void cchan_mpsc_send(CchanMpsc *self, const void *message) {
   }
 }
 
-void *cchan_mpsc_receive(CchanMpsc *self, u32 *lag_count) {
+void *cchan_mpsc_receive(CchanMpsc *self, uint32_t *lag_count) {
   void *message = utringbuffer_eltptr(self->ringbuffer, self->read_index);
   if (message != NULL) {
     self->read_index++;
@@ -41,11 +41,11 @@ void *cchan_mpsc_receive(CchanMpsc *self, u32 *lag_count) {
   return message;
 }
 
-u32 cchan_mpsc_length(const CchanMpsc *self) {
+uint32_t cchan_mpsc_length(const CchanMpsc *self) {
   return utringbuffer_len(self->ringbuffer) - self->read_index;
 }
 
-u32 cchan_mpsc_lag_count(const CchanMpsc *self) { return self->lag_count; }
+uint32_t cchan_mpsc_lag_count(const CchanMpsc *self) { return self->lag_count; }
 
 bool cchan_mpsc_empty(const CchanMpsc *self) {
   return utringbuffer_len(self->ringbuffer) == self->read_index;

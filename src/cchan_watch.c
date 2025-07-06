@@ -22,10 +22,10 @@ void *cchan_watch_receive(CchanWatch *self) {
   return utringbuffer_eltptr(self->ringbuffer, 0);
 }
 
-bool cchan_watch_updated(const CchanWatch *self, u32 update_count) {
+bool cchan_watch_updated(const CchanWatch *self, uint32_t update_count) {
   return self->update_count != update_count;
 }
 
-u32 cchan_watch_update_count(const CchanWatch *self) {
+uint32_t cchan_watch_update_count(const CchanWatch *self) {
   return self->update_count;
 }
